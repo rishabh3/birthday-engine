@@ -18,12 +18,18 @@ export default function Card({ content }: { content: BirthdayContent }) {
 
   const current = content.steps[step];
 
+  const resetCard = () => {
+    setStep(0);
+    setShowConfetti(false);
+  };
+
   useEffect(() => {
     if (showConfetti && content.confetti) {
       confetti({
-        particleCount: 150,
-        spread: 100,
-        origin: { y: 0.6 },
+        particleCount: 200,
+        spread: 120,
+        startVelocity: 40,
+        gravity: 0.8,
       });
     }
   }, [showConfetti, content.confetti]);
@@ -91,20 +97,31 @@ export default function Card({ content }: { content: BirthdayContent }) {
           </h2>
 
           <Typewriter
+            key={step}
             lines={current.lines}
             onComplete={() => setTimeout(() => setShowConfetti(true), 300)}
           />
 
           {showConfetti && (
-            <p className="mt-4 text-lg font-semibold text-pink-600 animate-fadeIn">
-              {current.closing}
-            </p>
+            <>
+              <p className="mt-4 text-lg font-semibold text-pink-600 animate-fadeIn">
+                {current.closing}
+              </p>
+              <div className="mt-6 text-sm text-gray-600 bg-white/60 rounded-lg px-4 py-2 border border-white/40">
+                <span className="font-medium text-pink-600">PS:</span>{" "}
+                {content.insideJoke}
+              </div>
+            </>
           )}
 
-          <div className="mt-6 text-sm text-gray-600 bg-white/60 rounded-lg px-4 py-2 border border-white/40">
-            <span className="font-medium text-pink-600">PS:</span>{" "}
-            {content.insideJoke}
-          </div>
+          {showConfetti && (
+            <button
+              onClick={resetCard}
+              className="mt-6 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-3 rounded-full font-medium shadow-md hover:scale-105 active:scale-95 transition-all duration-200"
+            >
+              🔁 Replay
+            </button>
+          )}
         </div>
       )}
     </div>
