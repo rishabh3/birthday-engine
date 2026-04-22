@@ -21,8 +21,8 @@ export const tanushi: BirthdayContent = {
       type: "message",
       lines: [
         "I don't really believe in gifts 😂",
-        "But I thought I’d make something anyway",
-        "Hope this makes your day at least a little better",
+        "But I thought I’d make something anyway 😉",
+        "Hope this makes your day at least a little better 😁",
       ],
       closing: "🎉 Happy Birthday! Have a great one 🎉",
     },
