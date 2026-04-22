@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from "react";
 
-export default function Typewriter({ lines }: { lines: string[] }) {
+export default function Typewriter({
+  lines,
+  onComplete,
+}: {
+  lines: string[];
+  onComplete?: () => void;
+}) {
   const [displayedText, setDisplayedText] = useState("");
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
@@ -11,6 +17,7 @@ export default function Typewriter({ lines }: { lines: string[] }) {
   useEffect(() => {
     if (lineIndex >= lines.length) {
       setIsTypingDone(true);
+      onComplete?.();
       return;
     }
 

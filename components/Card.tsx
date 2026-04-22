@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
 import { BirthdayContent } from "../config/types";
 import MediaRenderer from "./MediaRenderer";
@@ -14,18 +14,21 @@ const dancing_script = Great_Vibes({
 
 export default function Card({ content }: { content: BirthdayContent }) {
   const [step, setStep] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const current = content.steps[step];
 
-  const nextStep = () => {
-    if (step === content.steps.length - 2 && content.confetti) {
+  useEffect(() => {
+    if (showConfetti && content.confetti) {
       confetti({
         particleCount: 150,
         spread: 100,
         origin: { y: 0.6 },
       });
     }
+  }, [showConfetti, content.confetti]);
 
+  const nextStep = () => {
     setStep((prev) => prev + 1);
   };
 
@@ -87,11 +90,16 @@ export default function Card({ content }: { content: BirthdayContent }) {
             Dear {content.name},
           </h2>
 
-          <Typewriter lines={current.lines} />
+          <Typewriter
+            lines={current.lines}
+            onComplete={() => setTimeout(() => setShowConfetti(true), 300)}
+          />
 
-          <p className="mt-4 text-lg font-semibold text-pink-600 animate-fadeIn">
-            {current.closing}
-          </p>
+          {showConfetti && (
+            <p className="mt-4 text-lg font-semibold text-pink-600 animate-fadeIn">
+              {current.closing}
+            </p>
+          )}
 
           <div className="mt-6 text-sm text-gray-600 bg-white/60 rounded-lg px-4 py-2 border border-white/40">
             <span className="font-medium text-pink-600">PS:</span>{" "}
