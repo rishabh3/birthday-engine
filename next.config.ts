@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true, // important for GitHub Pages
   },
+  basePath: "/birthday-engine",
+  assetPrefix: "/birthday-engine/"
 };
 
 export default nextConfig;
