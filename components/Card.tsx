@@ -6,6 +6,7 @@ import { BirthdayContent } from "../config/types";
 import MediaRenderer from "./MediaRenderer";
 import { Great_Vibes } from "next/font/google";
 import Typewriter from "./Typewriter";
+import { getResourcePath } from "@/utils/utils";
 
 const dancing_script = Great_Vibes({
   weight: "400",
@@ -162,7 +163,7 @@ export default function Card({ content }: { content: BirthdayContent }) {
         </div>
       )}
       <audio ref={audioRef} loop>
-        <source src="/happy_birthday_music.mp3" type="audio/mpeg" />
+        <source src={getResourcePath("happy_birthday_music.mp3")} type="audio/mpeg" />
       </audio>
     </div>
   );
