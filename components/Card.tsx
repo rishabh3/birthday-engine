@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
 import { BirthdayContent } from "../config/types";
 import MediaRenderer from "./MediaRenderer";
@@ -15,6 +15,8 @@ const dancing_script = Great_Vibes({
 export default function Card({ content }: { content: BirthdayContent }) {
   const [step, setStep] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const current = content.steps[step];
 
@@ -35,6 +37,24 @@ export default function Card({ content }: { content: BirthdayContent }) {
   }, [showConfetti, content.confetti]);
 
   const nextStep = () => {
+    if (!isPlaying && audioRef.current) {
+      const audio = audioRef.current;
+
+      audio.volume = 0;
+      audio.play();
+      setIsPlaying(true);
+
+      // fade-in effect
+      let vol = 0;
+      const fade = setInterval(() => {
+        if (vol >= 0.4) {
+          clearInterval(fade);
+        } else {
+          vol += 0.05;
+          audio.volume = vol;
+        }
+      }, 100);
+    }
     setStep((prev) => prev + 1);
   };
 
@@ -42,6 +62,23 @@ export default function Card({ content }: { content: BirthdayContent }) {
     <div className="relative animate-card bg-white/80 backdrop-blur-lg rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.2)] p-10 text-center max-w-md w-full border border-white/30">
       <div className="absolute inset-0 pointer-events-none rounded-3xl bg-gradient-to-r from-pink-400/20 via-purple-400/20 to-yellow-400/20 blur-xl opacity-50"></div>
       <div className="flex items-center justify-center gap-3 mb-4">
+        <button
+          onClick={() => {
+            if (!audioRef.current) return;
+
+            if (isPlaying) {
+              audioRef.current.pause();
+            } else {
+              audioRef.current.play();
+            }
+
+            setIsPlaying(!isPlaying);
+          }}
+          className="absolute top-4 right-4 text-sm bg-white/70 px-3 py-1 rounded-full shadow"
+        >
+          {isPlaying ? "🔊" : "🔇"}
+        </button>
+
         {/* Left Cake */}
         <span className="text-4xl md:text-6xl">{content.preTitle}</span>
 
@@ -124,6 +161,9 @@ export default function Card({ content }: { content: BirthdayContent }) {
           )}
         </div>
       )}
+      <audio ref={audioRef} loop>
+        <source src="/happy_birthday_music.mp3" type="audio/mpeg" />
+      </audio>
     </div>
   );
 }
