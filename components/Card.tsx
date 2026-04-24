@@ -24,6 +24,13 @@ export default function Card({ content }: { content: BirthdayContent }) {
   const resetCard = () => {
     setStep(0);
     setShowConfetti(false);
+
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+
+    setIsPlaying(false);
   };
 
   useEffect(() => {
@@ -49,7 +56,6 @@ export default function Card({ content }: { content: BirthdayContent }) {
       let vol = 0;
       const fade = setInterval(() => {
         if (vol >= 0.4) {
-          clearInterval(fade);
         } else {
           vol += 0.05;
           audio.volume = vol;
@@ -163,7 +169,10 @@ export default function Card({ content }: { content: BirthdayContent }) {
         </div>
       )}
       <audio ref={audioRef} loop>
-        <source src={getResourcePath("happy_birthday_music.mp3")} type="audio/mpeg" />
+        <source
+          src={getResourcePath("happy_birthday_music.mp3")}
+          type="audio/mpeg"
+        />
       </audio>
     </div>
   );
