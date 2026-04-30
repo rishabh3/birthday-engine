@@ -1,6 +1,7 @@
 import { BirthdayContent } from "./types";
 
 export const tanushi: BirthdayContent = {
+  affection: "Dear",
   name: "Tanushi",
   title: "Happy Birthday!",
   intro: "Made something for you… don’t expect too much 😁",

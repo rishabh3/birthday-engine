@@ -66,7 +66,7 @@ export default function Card({ content }: { content: BirthdayContent }) {
   };
 
   return (
-    <div className="relative animate-card bg-white/80 backdrop-blur-lg rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.2)] p-10 text-center max-w-md w-full border border-white/30">
+    <div className="relative animate-card bg-white/80 backdrop-blur-lg rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.2)] p-6 md:p-10 text-center max-w-md w-full max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 scrollbar-track-transparent border border-white/30">
       <div className="absolute inset-0 pointer-events-none rounded-3xl bg-gradient-to-r from-pink-400/20 via-purple-400/20 to-yellow-400/20 blur-xl opacity-50"></div>
       <div className="flex items-center justify-center gap-3 mb-4">
         <button
@@ -91,7 +91,7 @@ export default function Card({ content }: { content: BirthdayContent }) {
 
         {/* Title */}
         <h1
-          className={`${dancing_script.className} text-4xl md:text-5xl bg-gradient-to-r from-pink-500 via-purple-500 to-orange-400 bg-clip-text text-transparent`}
+          className={`${dancing_script.className} text-2xl md:text-4xl leading-tight break-words text-center bg-gradient-to-r from-pink-500 via-purple-500 to-orange-400 bg-clip-text text-transparent`}
         >
           {content.title}
         </h1>
@@ -137,7 +137,7 @@ export default function Card({ content }: { content: BirthdayContent }) {
           <MediaRenderer media={content.media} />
 
           <h2 className="text-2xl font-semibold text-purple-700 mb-3">
-            Dear {content.name},
+            {content.affection} {content.name},
           </h2>
 
           <Typewriter
@@ -152,8 +152,13 @@ export default function Card({ content }: { content: BirthdayContent }) {
                 {current.closing}
               </p>
               <div className="mt-6 text-sm text-gray-600 bg-white/60 rounded-lg px-4 py-2 border border-white/40">
-                <span className="font-medium text-pink-600">PS:</span>{" "}
-                {content.insideJoke}
+                {content.insideJoke && (
+                  <>
+                    <span className="font-medium text-pink-600">PS:</span>{" "}
+                    {content.insideJoke}
+                  </>
+                )}
+                {content.personalMessage && <>{content.personalMessage}</>}
               </div>
             </>
           )}

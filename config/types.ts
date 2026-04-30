@@ -19,6 +19,7 @@ export type Media =
   | { type: "emoji"; value: string };
 
 export type BirthdayContent = {
+  affection: string;
   name: string;
   title: string;
   intro: string;
@@ -28,7 +29,8 @@ export type BirthdayContent = {
   steps: Step[];
 
   media?: Media;
-  insideJoke: string;
+  insideJoke?: string;
+  personalMessage?: string;
 
   confetti?: boolean;
 };
